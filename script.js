@@ -8,6 +8,7 @@ let ticking = false;
 function update() {
   const y = reduce.matches ? 0 : window.scrollY;
   for (const el of items) el.style.setProperty('--py', `${y * el.dataset.parallax}px`);
+  scaleSphere(y);
   scrubWords();
   ticking = false;
 }
@@ -23,6 +24,9 @@ reduce.addEventListener('change', () => { centerOnSphere(); update(); });
 // statement exactly there. The sphere itself never moves for this.
 const sphere = document.querySelector('[data-center-target]');
 const statement = document.querySelector('[data-center-on-sphere]');
+// data-scale="0.8 1.1": start size on load → full size once the statement is centered
+const [scaleFrom, scaleTo] = (sphere?.dataset.scale || '1 1').split(' ').map(Number);
+let meetScroll = 1;   // scroll position where the statement and sphere center meet
 
 function pageTop(el) { let t = 0; for (; el; el = el.offsetParent) t += el.offsetTop; return t; }  // ignores transforms
 
@@ -32,12 +36,25 @@ function centerOnSphere() {
   section.style.paddingTop = '';
   const k = reduce.matches ? 0 : Number(sphere.dataset.parallax || 0);
   const vh = window.innerHeight;
-  const sphereCenter = pageTop(sphere) + sphere.offsetHeight / 2;   // at scroll 0
+  // the sphere grows from its top edge, so its center sits lower when it's full size
+  const sc = reduce.matches ? 1 : scaleTo;
+  const sphereCenter = pageTop(sphere) + sphere.offsetHeight * sc / 2;   // at scroll 0
   const scrollAtMeet = (sphereCenter - vh / 2) / (1 - k);
+  meetScroll = Math.max(1, scrollAtMeet);
   const target = scrollAtMeet + vh / 2;                              // page y of the meeting point
   const base = parseFloat(getComputedStyle(section).paddingTop);
   const now = pageTop(statement) + statement.offsetHeight / 2;
   section.style.paddingTop = `${Math.max(base, base + target - now)}px`;
+}
+
+// Grow the big sphere from scaleFrom to scaleTo between page load and the
+// moment the statement is centered on it, easing out as it gets there.
+function scaleSphere(y) {
+  if (!sphere) return;
+  if (reduce.matches) { sphere.style.setProperty('--sc', '1'); return; }
+  const p = Math.min(1, Math.max(0, y / meetScroll));
+  const eased = 1 - (1 - p) ** 2;
+  sphere.style.setProperty('--sc', (scaleFrom + (scaleTo - scaleFrom) * eased).toFixed(4));
 }
 
 // Scrub each word: [data-scrub] text starts dim and lights up word by word
@@ -105,3 +122,11 @@ if (darkSections.length) {
   }, { rootMargin: '-45% 0px -45% 0px' });   // a thin band across the middle
   darkSections.forEach(s => io.observe(s));
 }
+
+// Reveal: [data-reveal] elements get .is-in once their section is a third
+// on screen (CSS handles the glide-in), and lose it when it leaves so the
+// entrance plays again next time.
+document.querySelectorAll('[data-reveal]').forEach(el => {
+  const section = el.closest('section') || el;
+  new IntersectionObserver(([e]) => el.classList.toggle('is-in', e.isIntersecting), { threshold: .33 }).observe(section);
+});

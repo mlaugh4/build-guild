@@ -79,14 +79,19 @@ main > section, .footer { position: relative; z-index: 1; }
   position: relative;
   display: block;
   border-radius: 50%;
-  overflow: hidden;
   isolation: isolate;
   background: var(--base);
-  transform: translate3d(0, var(--py, 0px), 0);  /* --py = parallax offset set by script.js */
+  /* --py = parallax offset, --sc = scroll-driven size (both set by script.js) */
+  transform: translate3d(0, var(--py, 0px), 0) scale(var(--sc, 1));
   filter: blur(var(--soft, 0px));  /* slightly out of focus, edge included */
+  /* No overflow:hidden here — Safari ignores rounded clipping on blurred
+     elements, so the swirl clips itself to the circle instead (below). */
 }
 .swirl {
   position: absolute; inset: -15%;
+  /* the sphere's circle, in swirl units (swirl is 130% of the sphere);
+     a centered circle looks the same at any rotation */
+  clip-path: circle(38.46% at 50% 50%);
   animation: spin var(--spin) linear infinite;
 }
 .swirl > i {
@@ -146,6 +151,7 @@ main > section, .footer { position: relative; z-index: 1; }
   width: var(--s); height: var(--s);
   left: 50%; margin-left: calc(var(--s) / -2);
   top: calc(100% - var(--peek));   /* top arc peeks up from the bottom of the first screen */
+  transform-origin: 50% 0;         /* grow downward from the top edge */
   pointer-events: none;
 }
 
@@ -163,7 +169,7 @@ main > section, .footer { position: relative; z-index: 1; }
     radial-gradient(circle at 23% 39%, rgba(255,106,31,.65) 0, transparent 34%),
     radial-gradient(circle at 65% 17%, rgba(216,184,67,.70) 0, transparent 34%),
     radial-gradient(circle at 80% 83%, rgba(45,91,255,.85) 0, transparent 40%),
-    radial-gradient(circle at 28% 75%, rgba(42,148,131,.75) 0, transparent 45%),
+    radial-gradient(circle at 28% 75%, var(--teal, rgba(42,148,131,.75)) 0, transparent 45%),
     linear-gradient(135deg, #FFE7C7 0%, #FF9A5A 25%, #FF4F6E 50%, #9B3CFF 75%, #1F2BFF 100%);
   filter: blur(5px);
   box-shadow: 0 0 60px 10px rgba(255, 95, 162, .18);
@@ -174,6 +180,28 @@ main > section, .footer { position: relative; z-index: 1; }
 }
 @media (max-width: 767px) {
   .orb-multi { --s: 96px; left: auto; right: var(--pad); top: calc(100% - var(--peek) - 48px); filter: blur(3px); }
+}
+
+/* Lately sphere: half off the right edge beside the cards. It glides in from
+   the right when the section arrives (script.js adds .is-in) and drifts. */
+.orb-multi--lately {
+  --teal: rgba(53, 118, 162, .75);
+  filter: none;                      /* crisp, unlike the hero's small sphere */
+  left: auto; right: -83px;          /* 96px visible, like the Figma frame */
+  top: calc(50% + 126px);
+  z-index: 0;
+  opacity: 0;
+  translate: 160px 0;
+  scale: .6;
+  transition: opacity 1s ease, translate 1.6s cubic-bezier(.16, 1, .3, 1), scale 1.6s cubic-bezier(.16, 1, .3, 1);
+}
+.orb-multi--lately.is-in { opacity: 1; translate: 0 0; scale: 1; }
+.lately > .wrap { position: relative; z-index: 1; }
+@media (max-width: 767px) {
+  .orb-multi--lately { --s: 120px; right: -48px; left: auto; top: calc(50% - 20px); filter: none; }   /* in the gap between the stacked cards */
+}
+@media (prefers-reduced-motion: reduce) {
+  .orb-multi--lately { transition: opacity .6s ease; translate: 0 0; scale: 1; }
 }
 
 /* ---------- Hero ---------- */
@@ -224,8 +252,13 @@ main > section, .footer { position: relative; z-index: 1; }
   .statement { font-size: 26px; }
 }
 
+.what__actions { margin-top: 40px; text-align: center; }
+.what__actions .pill { display: inline-block; }
+@media (max-width: 767px) { .what__actions { margin-top: 28px; } }
+
 /* ---------- Lately ---------- */
 .lately {
+  position: relative;
   /* sits further down, and fills the screen like a scene of its own */
   margin-top: 80vh;   /* room for the sphere to rise clear before the projects arrive */
   min-height: 100vh; min-height: 100svh;
