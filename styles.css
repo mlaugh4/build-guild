@@ -12,7 +12,7 @@
   --max: 1440px;
 
   --sans: "Instrument Sans", system-ui, sans-serif;
-  --display: "Archivo", "Arial Black", sans-serif;
+  --display: "Tusker Grotesk", "Archivo", "Arial Black", sans-serif;
   --serif: "Newsreader", Georgia, serif;
 }
 
@@ -27,6 +27,13 @@
 @property --muted { syntax: "<color>"; inherits: true; initial-value: #5E5E5A; }
 :root { transition: --bg .9s ease, --ink .9s ease, --muted .9s ease; }
 :root.is-dark { --bg: #111111; --ink: #F3F1EC; --muted: #A9A59C; }
+
+/* Headline face. Commercial font (Lewis McGuffie) — needs a web license before going public. */
+@font-face {
+  font-family: "Tusker Grotesk";
+  src: url("assets/fonts/TuskerGrotesk-9800Super.otf") format("opentype");
+  font-weight: 800; font-style: normal; font-display: swap;
+}
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
@@ -67,6 +74,12 @@ main > section, .footer { position: relative; z-index: 1; }
 }
 .pill:hover { background: var(--ink); color: var(--bg); }
 @media (max-width: 767px) { .pill { font-size: 15px; padding: 12px 20px; } }
+
+.nav__actions { display: flex; align-items: center; gap: 4px; }
+/* borderless pill: same size and type, so it lines up with "Email us" */
+.pill--plain { border-color: transparent; }
+.pill--plain:hover { background: none; color: inherit; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 767px) { .nav__actions { gap: 0; } .pill--plain { padding-inline: 12px; } }
 
 /* ---------- Spheres ----------
    Slightly out-of-focus spheres with a dark rim, film grain, and soft color blobs
@@ -219,10 +232,10 @@ main > section, .footer { position: relative; z-index: 1; }
   position: relative; z-index: 2;
   font-family: var(--display);
   font-weight: 800;
-  /* "BUILD GUILD" is ~6.25em wide; fill the content width (220px at 1440) */
-  font-size: min(240px, calc((min(100vw, var(--max)) - 2 * var(--pad)) / 6.3));
+  /* "BUILD GUILD" is ~10.05em wide in Tusker; 136px fills the 1440 frame */
+  font-size: min(136px, calc((min(100vw, var(--max)) - 2 * var(--pad)) / 10.1));
   line-height: .92;
-  letter-spacing: -.05em;
+  letter-spacing: 0;
   white-space: nowrap;
 }
 .intro {
@@ -235,6 +248,8 @@ main > section, .footer { position: relative; z-index: 1; }
 @media (max-width: 767px) {
   .hero { padding-top: 8px; padding-bottom: 72px; --peek: 40svh; }  /* tall phone screens: show more sphere */
   .intro { margin-top: 20px; font-size: 20px; }
+  /* phones: stack BUILD / GUILD so it can stay big (each word ~5em) */
+  .headline { white-space: normal; font-size: calc((100vw - 2 * var(--pad)) / 5.1); line-height: 1.04; }
 }
 
 /* ---------- What we do ---------- */
