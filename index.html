@@ -13,8 +13,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&family=Instrument+Sans:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=25">
-  <script src="script.js?v=25" defer></script>
+  <link rel="stylesheet" href="styles.css?v=36">
+  <script src="script.js?v=36" defer></script>
 </head>
 <body>
   <div class="page">
@@ -23,7 +23,7 @@
         <span class="logo-dot" aria-hidden="true"></span>
       </a>
       <nav class="nav__actions" aria-label="Main">
-        <a class="pill pill--plain" href="#how-we-work">How we work</a>
+        <a class="pill pill--plain" href="how-we-work.html">How we work</a>
         <a class="pill" href="mailto:hello@buildguild.org">Email us</a>
       </nav>
     </header>
@@ -40,12 +40,13 @@
         <div class="wrap">
           <div class="what__inner" data-center-on-sphere>
             <p class="statement" data-scrub>We take on niche problems faced by budget&#8209;constrained nonprofit organizations. Our approach emphasizes quick intake, co-creation, rapid delivery, and open-sourced output.</p>
-            <div class="what__actions"><a class="pill" href="#how-we-work">How we work</a></div>
+            <div class="what__actions"><a class="pill" href="how-we-work.html">How we work</a></div>
           </div>
         </div>
       </section>
 
-      <section class="lately" data-theme="dark" aria-labelledby="lately-title">
+      <!-- Lately is hidden for now (remove "hidden" to bring it back) -->
+      <section class="lately" data-theme="dark" aria-labelledby="lately-title" hidden>
         <div class="orb-multi orb-multi--lately" data-wander="30" data-reveal aria-hidden="true"></div>
         <div class="wrap">
           <div class="lately__head">
@@ -65,6 +66,44 @@
               <h3 class="card__title">Fraud defense for elders</h3>
               <p class="card__tag"># Your org?</p>
               <p class="card__desc">Another short description of the project</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="lately people" data-theme="dark" aria-labelledby="people-title">
+        <div class="wrap">
+          <div class="lately__head">
+            <h2 id="people-title" class="eyebrow">People</h2>
+          </div>
+
+          <ul class="cards">
+            <li class="card">
+              <img class="card__img person__img" src="assets/people/laurie.jpg" width="800" height="800" alt="Portrait of Laurie Sheflin" loading="lazy">
+              <div class="card__row">
+                <h3 class="card__title">Laurie Sheflin</h3>
+                <a class="card__social" href="https://www.linkedin.com/in/lauriesheflin/" target="_blank" rel="noopener" aria-label="Laurie Sheflin on LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a>
+              </div>
+              <p class="card__tag">Product</p>
+              <p class="card__desc" hidden>25+ years of product leadership. Superpower: Stepping into complex or unfamiliar situations, getting up to speed quickly, building trust, and helping teams keep moving forward.</p>
+            </li>
+            <li class="card">
+              <img class="card__img person__img" src="assets/people/viral.jpg" width="800" height="800" alt="Portrait of Viral Kadakia" loading="lazy">
+              <div class="card__row">
+                <h3 class="card__title">Viral Kadakia</h3>
+                <a class="card__social" href="https://www.linkedin.com/in/viralk/" target="_blank" rel="noopener" aria-label="Viral Kadakia on LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a>
+              </div>
+              <p class="card__tag">Eng</p>
+              <p class="card__desc" hidden>Former VP at PayPal and Indeed. Strong product mindset; engineer at heart. Experienced builder and strategist.</p>
+            </li>
+            <li class="card">
+              <img class="card__img person__img" src="assets/people/mark.jpg" width="800" height="800" alt="Portrait of Mark Laughery" loading="lazy">
+              <div class="card__row">
+                <h3 class="card__title">Mark Laughery</h3>
+                <a class="card__social" href="https://www.linkedin.com/in/marklaughery/" target="_blank" rel="noopener" aria-label="Mark Laughery on LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a>
+              </div>
+              <p class="card__tag">Design</p>
+              <p class="card__desc" hidden>UX designer and builder with extensive experience in med tech and AI in hiring.</p>
             </li>
           </ul>
         </div>
